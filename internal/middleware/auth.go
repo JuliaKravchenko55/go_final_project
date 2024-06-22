@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-var jwtKey = []byte("my_secret_key")
+var jwtKey = []byte("secret_key")
 
 type Claims struct {
 	PasswordHash string `json:"password_hash"`
