@@ -1,16 +1,19 @@
 package router
 
 import (
-	"github.com/JuliaKravchenko55/go_final_project/internal/middleware"
 	"log"
 	"net/http"
 	"path/filepath"
+
+	"github.com/JuliaKravchenko55/go_final_project/internal/store"
+
+	"github.com/JuliaKravchenko55/go_final_project/internal/middleware"
 
 	"github.com/JuliaKravchenko55/go_final_project/internal/handlers"
 	"github.com/go-chi/chi/v5"
 )
 
-func SetupRouter() *chi.Mux {
+func SetupRouter(store *store.Store) *chi.Mux {
 	r := chi.NewRouter()
 
 	absPath, err := filepath.Abs("./web")
@@ -24,15 +27,15 @@ func SetupRouter() *chi.Mux {
 
 	r.Group(func(r chi.Router) {
 		r.Use(middleware.Auth)
-		r.Get("/api/nextdate", handlers.CalculateNextDate)
+		r.Get("/api/nextdate", handlers.CalculateNextDate())
 		r.Route("/api/task", func(r chi.Router) {
-			r.Post("/", handlers.CreateTask)
-			r.Get("/", handlers.GetTask)
-			r.Put("/", handlers.UpdateTask)
-			r.Delete("/", handlers.DeleteTask)
+			r.Post("/", handlers.CreateTask(store))
+			r.Get("/", handlers.GetTask(store))
+			r.Put("/", handlers.UpdateTask(store))
+			r.Delete("/", handlers.DeleteTask(store))
 		})
-		r.Post("/api/task/done", handlers.CompleteTask)
-		r.Get("/api/tasks", handlers.ListTasks)
+		r.Post("/api/task/done", handlers.CompleteTask(store))
+		r.Get("/api/tasks", handlers.ListTasks(store))
 	})
 
 	return r

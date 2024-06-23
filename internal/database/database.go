@@ -2,15 +2,16 @@ package database
 
 import (
 	"database/sql"
-	"github.com/JuliaKravchenko55/go_final_project/internal/config"
 	"log"
+
+	"github.com/JuliaKravchenko55/go_final_project/internal/config"
 
 	_ "modernc.org/sqlite"
 )
 
 var DB *sql.DB
 
-func Initialize() {
+func Initialize() *sql.DB {
 	dbFilePath := config.GetDBFilePath()
 
 	var err error
@@ -36,4 +37,6 @@ func Initialize() {
 	if _, err = DB.Exec(createIndexSQL); err != nil {
 		log.Fatal(err)
 	}
+
+	return DB
 }

@@ -2,13 +2,17 @@ package handlers
 
 import (
 	"encoding/json"
-	"github.com/JuliaKravchenko55/go_final_project/internal/config"
+	"fmt"
 	"net/http"
 	"os"
 	"time"
 
+	"github.com/JuliaKravchenko55/go_final_project/internal/config"
+
 	"github.com/golang-jwt/jwt/v5"
 )
+
+const tokenExpirationHours = 8
 
 var jwtKey = []byte(config.GetSecret())
 
@@ -35,7 +39,7 @@ func Signin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	expirationTime := time.Now().Add(8 * time.Hour)
+	expirationTime := time.Now().Add(tokenExpirationHours * time.Hour)
 	claims := &Claims{
 		PasswordHash: creds.Password,
 		RegisteredClaims: jwt.RegisteredClaims{
@@ -46,6 +50,7 @@ func Signin(w http.ResponseWriter, r *http.Request) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	tokenString, err := token.SignedString(jwtKey)
 	if err != nil {
+		fmt.Printf("Error creating token: %v", err)
 		http.Error(w, `{"error":"Не удалось создать токен"}`, http.StatusInternalServerError)
 		return
 	}
