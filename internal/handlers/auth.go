@@ -7,9 +7,9 @@ import (
 	"os"
 	"time"
 
-	"github.com/JuliaKravchenko55/go_final_project/internal/config"
-
 	"github.com/golang-jwt/jwt/v5"
+
+	"github.com/JuliaKravchenko55/go_final_project/internal/config"
 )
 
 const tokenExpirationHours = 8

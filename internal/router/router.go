@@ -5,12 +5,11 @@ import (
 	"net/http"
 	"path/filepath"
 
-	"github.com/JuliaKravchenko55/go_final_project/internal/store"
-
-	"github.com/JuliaKravchenko55/go_final_project/internal/middleware"
+	"github.com/go-chi/chi/v5"
 
 	"github.com/JuliaKravchenko55/go_final_project/internal/handlers"
-	"github.com/go-chi/chi/v5"
+	"github.com/JuliaKravchenko55/go_final_project/internal/middleware"
+	"github.com/JuliaKravchenko55/go_final_project/internal/store"
 )
 
 func SetupRouter(store *store.Store) *chi.Mux {

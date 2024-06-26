@@ -4,9 +4,9 @@ import (
 	"database/sql"
 	"log"
 
-	"github.com/JuliaKravchenko55/go_final_project/internal/config"
-
 	_ "modernc.org/sqlite"
+
+	"github.com/JuliaKravchenko55/go_final_project/internal/config"
 )
 
 var DB *sql.DB

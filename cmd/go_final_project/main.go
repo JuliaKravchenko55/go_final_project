@@ -4,12 +4,12 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/JuliaKravchenko55/go_final_project/internal/store"
 	"github.com/joho/godotenv"
 
 	"github.com/JuliaKravchenko55/go_final_project/internal/config"
 	"github.com/JuliaKravchenko55/go_final_project/internal/database"
 	"github.com/JuliaKravchenko55/go_final_project/internal/router"
+	"github.com/JuliaKravchenko55/go_final_project/internal/store"
 )
 
 func main() {

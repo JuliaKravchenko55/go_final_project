@@ -3,8 +3,9 @@ package middleware
 import (
 	"net/http"
 
-	"github.com/JuliaKravchenko55/go_final_project/internal/config"
 	"github.com/golang-jwt/jwt/v5"
+
+	"github.com/JuliaKravchenko55/go_final_project/internal/config"
 )
 
 var jwtKey = []byte("secret_key")
