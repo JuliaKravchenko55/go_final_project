@@ -26,7 +26,15 @@ func getURL(path string) string {
 }
 
 func getBody(path string) ([]byte, error) {
-	resp, err := http.Get(getURL(path))
+	client := &http.Client{}
+	req, err := http.NewRequest("GET", getURL(path), nil)
+	if err != nil {
+		return nil, err
+	}
+	if len(Token) > 0 {
+		req.Header.Add("Cookie", "token="+Token)
+	}
+	resp, err := client.Do(req)
 	if err != nil {
 		return nil, err
 	}
