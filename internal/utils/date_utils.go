@@ -80,7 +80,7 @@ func CalculateNextDate(now time.Time, date string, repeat string) (string, error
 		dayInts := make([]int, len(daysOfMonth))
 		for i, day := range daysOfMonth {
 			dayInt, err := strconv.Atoi(day)
-			if err != nil || dayInt < -31 || dayInt > 31 || dayInt == 0 {
+			if err != nil || (dayInt < 1 && dayInt != -1 && dayInt != -2) || dayInt > 31 {
 				return "", errors.New("Недопустимый день месяца")
 			}
 			dayInts[i] = dayInt

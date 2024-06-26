@@ -18,7 +18,7 @@ func UpdateTask(store *store.Store) http.HandlerFunc {
 			return
 		}
 
-		if task.ID == 0 {
+		if task.ID == "0" || task.ID == "" {
 			http.Error(w, `{"error":"ID задачи обязателен"}`, http.StatusBadRequest)
 			return
 		}

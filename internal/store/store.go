@@ -36,9 +36,9 @@ func (s *Store) ListTasks(search string) ([]models.Task, error) {
 	if search == "" {
 		rows, err = s.DB.Query(`SELECT * FROM scheduler ORDER BY date ASC LIMIT 50`)
 	} else {
-		if _, dateErr := time.Parse("02.01.2006", search); dateErr == nil {
-			searchDate := time.Now().Format("20060102")
-			rows, err = s.DB.Query(`SELECT * FROM scheduler WHERE date = ? ORDER BY date ASC LIMIT 50`, searchDate)
+		if searchDate, dateErr := time.Parse("02.01.2006", search); dateErr == nil {
+			searchDateStr := searchDate.Format("20060102")
+			rows, err = s.DB.Query(`SELECT * FROM scheduler WHERE date = ? ORDER BY date ASC LIMIT 50`, searchDateStr)
 		} else {
 			rows, err = s.DB.Query(`SELECT * FROM scheduler WHERE title LIKE ? OR comment LIKE ? ORDER BY date ASC LIMIT 50`, "%"+search+"%", "%"+search+"%")
 		}

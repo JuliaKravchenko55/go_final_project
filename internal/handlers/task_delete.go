@@ -3,6 +3,7 @@ package handlers
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 
 	"github.com/JuliaKravchenko55/go_final_project/internal/store"
 )
@@ -12,6 +13,11 @@ func DeleteTask(store *store.Store) http.HandlerFunc {
 		id := r.URL.Query().Get("id")
 		if id == "" {
 			http.Error(w, `{"error":"ID задачи обязателен"}`, http.StatusBadRequest)
+			return
+		}
+
+		if _, err := strconv.Atoi(id); err != nil {
+			http.Error(w, `{"error":"ID задачи должен быть валидным числом"}`, http.StatusBadRequest)
 			return
 		}
 

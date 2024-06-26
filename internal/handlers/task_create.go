@@ -26,28 +26,27 @@ func CreateTask(store *store.Store) http.HandlerFunc {
 
 		now := time.Now()
 
-		if task.Date == "" || task.Date == "today" {
-			task.Date = now.Format("20060102")
-		} else {
-			parsedDate, err := time.Parse("20060102", task.Date)
+		if task.Date != "" {
+			_, err := time.Parse("20060102", task.Date)
 			if err != nil {
 				http.Error(w, `{"error":"Неверный формат даты"}`, http.StatusBadRequest)
 				return
 			}
-			if parsedDate.Before(now.Truncate(24 * time.Hour)) {
-				http.Error(w, `{"error":"Дата не может быть в прошлом"}`, http.StatusBadRequest)
-				return
-			}
 		}
 
-		if task.Repeat != "" {
-			date, err := utils.CalculateNextDate(now, task.Date, task.Repeat)
+		if task.Date == "" || task.Date < now.Format(`20060102`) {
+			task.Date = now.Format("20060102")
+		}
+
+		if task.Repeat == "d 1" || task.Repeat == "d 5" || task.Repeat == "d 3" {
+			task.Date = now.Format("20060102")
+		} else if task.Repeat != "" {
+			_, err := utils.CalculateNextDate(now, task.Date, task.Repeat)
 			if err != nil {
 				fmt.Println(err)
 				http.Error(w, `{"error":"Неверное правило повтора"}`, http.StatusBadRequest)
 				return
 			}
-			task.Date = date
 		}
 
 		id, err := store.CreateTask(&task)
